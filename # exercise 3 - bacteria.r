@@ -19,7 +19,7 @@ for(i in 1:N){
     Zeros <- append(Zeros,c(x_0,y_0))
 }
 zeros_pts<-Zeros %>% matrix(,nrow = 25,ncol = 2) 
-colnames(zeros_pts)<-c("x0","y0")
+colnames(zeros_pts)<-c("x","y")
 #zeros_pts
 my_values = c()
 # function that does the simulations
@@ -29,7 +29,7 @@ myfunct <- function(z0){
     #parameters 
     a = 0 
     b = 2 
-    S = runif(121,a,b) # uniform distribution of bacteria
+    S = runif(1000,a,b) # uniform distribution of bacteria
     t = c(1:121) # iterations
     gamma = runif(121,0,2*pi)
     cos_sin = matrix(c(cos(gamma),sin(gamma)),nrow =121,ncol= 2)
@@ -38,15 +38,16 @@ myfunct <- function(z0){
     for(i in 1:N){
         k = z0[i,]
         for(t in 1:121){
-            f[t+1] = f[t] + S[t] *cos_sin[t,]  # find a way to do the iteration with f t+1
-
-            my_values <- append(my_values,f[t+1])
+            f = k + S[t] *cos_sin[t,]  # find a way to do the iteration with f t+1
+            my_values <- append(my_values,f)
+            mat_i <-my_values %>% matrix(,nrow = 121,ncol = 2, byrow = TRUE)
         }
-    }
-    #bacteria <- my_values %>% matrix(,nrow = 121,ncol = 25)
-    return(my_values)
-}
+        print(mat_i) # print the matrix of each bacteria
+    }   
+    #slice my_valeus 2 by 2 to get the x and y values
 
+    #return(mat_i)
+}
 myfunct(zeros_pts)
 
 # create cirle of radius 3 centered at (0,0)
