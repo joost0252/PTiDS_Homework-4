@@ -9,6 +9,7 @@ packages <- c(
   "ggplot2", "plot.matrix", "rstan", "quanteda",
   "quanteda.textstats", "lexicon", "tidytext", "reshape2",
   "rstan",'deSolve','stats',"MASS",'ModelMetrics',"reshape", #readRDS
+  
   #for shiny
     "gapminder", "ggforce", "gh", "globals", "openintro", "profvis", 
     "RSQLite", "shiny", "shinycssloaders", "shinyFeedback", 
