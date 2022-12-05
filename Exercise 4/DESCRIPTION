@@ -1,0 +1,15 @@
+Package: Funky Function
+Title: Function for an exercise
+Version: 0.0.0.9000
+Authors@R: 
+    person("Joost", "Dijkstra", , "joostdijkstra1995@gmail.com, role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Maintainer: Joost <joostdijkstra1995@gmail.com>
+Description: This is an exercise to create my first package. This package will include a function.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+URL: https://https://github.com/ptds2022/pkgtest
+BugReports: https://https://github.com/ptds2022/pkgtest/issues
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.2
