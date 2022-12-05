@@ -10,25 +10,215 @@ source(here::here("Setup.R"))
 ```
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# exercise 3 - bacteria
+
+# Problem I have is related to ggplot + animation + the type of my features in df: 
+# geom_path: Each group consists of only one observation. Do you need to adjust
+# the group aesthetic?
+
 ```
 
-## R Markdown
+```{r setup, include=FALSE}
+# definie terms
+n = 25 # number of bacteria
+Zeros = c() # bacterium starting points x0,y0
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# generate 25 random initial points x0,y0
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+for(i in 1:n){
+    #get the 1st value of punif(-8,8) and append it to Zeros
+    x_0 = runif(1000,min =-8,max = 8)[1]
+    y_0 = runif(1000,min =-8,max = 8)[1]
 
-```{r cars}
-summary(cars)
+    Zeros <- append(Zeros,c(x_0,y_0))
+}
+zeros_pts<-Zeros %>% matrix(nrow = 25,ncol = 2)
+colnames(zeros_pts)<-c("x","y")
+
+        
+#parameters
+time = seq(1,121,by=1)
+my_values = c()
+a = 0
+b = 2
+#S = runif(1000,min = a,max = b) # uniform distribution of bacteria
+t = c(1:121) # iterations
+#gamma = runif(121,min = 0,max = 2*pi)
+#cos_sin = matrix(c(cos(gamma),sin(gamma)),nrow =121,ncol= 2)
+
+# simulations # check it 
+for(i in 1:n){
+  k = zeros_pts[i,] # x0 y0 inital points a t = 0
+  S = runif(1000,min = a,max = b) # u
+  gamma = runif(121,min = 0,max = 2*pi)
+  cos_sin = matrix(c(cos(gamma),sin(gamma)),nrow =121,ncol= 2)
+  for(t in 1:121){
+    f = k + S[t] *cos_sin[t,]  # find a way to do the iteration with f t+1
+    my_values <- append(my_values,f)
+  }
+}
+        
 ```
+ 
+ 
+````{r setup, include=FALSE}
+#create a dateframe with the values of my_values, colnames = x,y
 
-## Including Plots
+df <-my_values %>% split(f = c('x','y')) %>% data.frame()
+        
+# each letter = 1 bacteria simulations 
+A=df[1:121,]
+A[1,] <- c(zeros_pts[1,])
+B=df[122:242,]
+B[1,]<- c(zeros_pts[2,])
+C=df[243:363,]
+C[1,]<- c(zeros_pts[3,])
+D=df[364:484,]
+D[1,]<- c(zeros_pts[4,])
+E=df[485:605,]
+E[1,]<- c(zeros_pts[5,])
+F=df[606:726,]
+F[1,]<- c(zeros_pts[6,])
+G=df[727:847,]
+G[1,]<- c(zeros_pts[7,])
+H=df[848:968,]
+H[1,]<- c(zeros_pts[8,])
+I=df[969:1089,]
+I[1,]<- c(zeros_pts[9,])
+J=df[1090:1210,]
+J[1,]<- c(zeros_pts[10,])
+K=df[1211:1331,]
+K[1,]<- c(zeros_pts[11,])
+L=df[1332:1452,]
+L[1,]<- c(zeros_pts[12,])
+M=df[1453:1573,]
+M[1,]<- c(zeros_pts[13,])
+N=df[1574:1694,]
+N[1,]<- c(zeros_pts[14,])
+O=df[1695:1815,]
+O[1,]<- c(zeros_pts[15,])
+P=df[1816:1936,]
+P[1,]<- c(zeros_pts[16,])
+Q=df[1937:2057,]
+Q[1,]<- c(zeros_pts[17,])
+R=df[2058:2178,]
+R[1,]<- c(zeros_pts[18,])
+S=df[2179:2299,]
+S[1,]<- c(zeros_pts[19,])
+T=df[2300:2420,]
+T[1,]<- c(zeros_pts[20,])
+U=df[2421:2541,]
+U[1,]<- c(zeros_pts[21,])
+V=df[2542:2662,]
+V[1,]<- c(zeros_pts[22,])
+W=df[2663:2783,]
+W[1,]<- c(zeros_pts[23,])
+X=df[2784:2904,]
+X[1,]<- c(zeros_pts[24,])
+Y=df[2905:3025,]
+Y[1,]<- c(zeros_pts[25,])
 
-You can also embed plots, for example:
+# change colnames
+colnames(A)<-c('x1','y1')
+colnames(B)<-c('x2','y2')
+colnames(C)<-c('x3','y3')
+colnames(D)<-c('x4','y4')
+colnames(E)<-c('x5','y5')
+colnames(F)<-c('x6','y6')
+colnames(G)<-c('x7','y7')
+colnames(H)<-c('x8','y8')
+colnames(I)<-c('x9','y9')
+#colnames(df_11$x7.1)<-c('x10')
+colnames(K)<-c('x11','y11')
+colnames(L)<-c('x12','y12')
+colnames(M)<-c('x13','y13')
+colnames(N)<-c('x14','y14')
+colnames(O)<-c('x15','y15')
+colnames(P)<-c('x16','y16')
+colnames(Q)<-c('x17','y17')
+colnames(R)<-c('x18','y18')
+colnames(S)<-c('x19','y19')
+colnames(T)<-c('x20','y20')
+colnames(U)<-c('x21','y21')
+colnames(V)<-c('x22','y22')
+colnames(W)<-c('x23','y23')
+colnames(X)<-c('x24','y24')
+colnames(Y)<-c('x25','y25')
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+df_1 <- cbind(A,B,C,D,E,F,G,H,I,G,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y)
+
+# loading image for the plot 
+ovni = c('alien_image2.png')
+df_11<-df_1 %>% mutate(image = ovni)  
+````
+
+``````{r setup, include=FALSE}
+## plots         
+
+#use geom_circle to plot a circle of radius 3 centered at (0,0) title the circle 'SUGAR'
+staticplot<-ggplot() +
+  geom_circle(aes(x0 = 0, y0 =0,r = 3), color = "orange", fill ='orange') +
+  geom_text(aes(x=0,y=0,label = "SUGAR"),size = 15,color = 'white') +
+  geom_line(data = df_11,aes(x=x1,y=y1,group = 1),color =1)+
+  geom_line(data = df_11,aes(x=x2,y=y2,group=2),color =2)+
+  geom_line(data = df_11,aes(x=x3,y=y3))+
+  geom_line(data = df_11,aes(x=x5,y=y5),color =4)+
+  geom_line(data = df_11,aes(x=x4,y=y4),color =3)+
+  geom_line(data = df_11,aes(x=x6,y=y6),color =5)+
+  geom_line(data = df_11,aes(x=x7,y=y7),color =6)+
+  geom_line(data = df_11,aes(x=x8,y=y8),color =7)+
+  geom_line(data = df_11,aes(x=x9,y=y9),color =8)+
+  geom_line(data = df_11,aes(x=x7.1,y=y7.1),color =9)+
+  geom_line(data = df_11,aes(x=x11,y=y11),color =10)+
+  geom_line(data = df_11,aes(x=x12,y=y12),color =11)+
+  geom_line(data = df_11,aes(x=x13,y=y13),color =12)+
+  geom_line(data = df_11,aes(x=x14,y=y14),color =13)+
+  geom_line(data = df_11,aes(x=x15,y=y15),color =14)+
+  geom_line(data = df_11,aes(x=x16,y=y16),color =15)+
+  geom_line(data = df_11,aes(x=x17,y=y17),color =16)+
+  geom_line(data = df_11,aes(x=x18,y=y18),color =17)+
+  geom_line(data = df_11,aes(x=x19,y=y19),color =18)+
+  geom_line(data = df_11,aes(x=x20,y=y20),color =19)+
+  geom_line(data = df_11,aes(x=x21,y=y21),color=20)+
+  geom_line(data = df_11,aes(x=x22,y=y22),color =21)+
+  geom_line(data = df_11,aes(x=x23,y=y23),color =22)+
+  geom_line(data = df_11,aes(x=x24,y=y24),color =23)+
+  geom_line(data = df_11,aes(x=x25,y=y25),color =24)+
+  geom_image(data=df_11,aes(x=x1,y=y1,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x2,y=y2,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x3,y=y3,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x4,y=y4,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x5,y=y5,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x6,y=y6,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x7,y=y7,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x8,y=y8,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x9,y=y9,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x7.1,y=y7.1,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x11,y=y11,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x12,y=y12,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x13,y=y13,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x14,y=y14,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x15,y=y15,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x16,y=y16,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x17,y=y17,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x18,y=y18,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x19,y=y19,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x20,y=y20,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x21,y=y21,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x22,y=y22,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x23,y=y23,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x24,y=y24,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x25,y=y25,image = image),size =0.05)+
+  xlim(-10,10) +
+  ylim(-10,10) +
+  xlab("X Position") +
+  ylab("Y Position") +
+  theme_bw()+
+  ggtitle("Bacteria Motility") + theme(plot.title = element_text(hjust = 0.5))
+
+````
+
+```{r setup, include=FALSE}
+#animation of the plot
+staticplot+ transition_reveal(time)
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
