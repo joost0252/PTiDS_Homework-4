@@ -8,7 +8,9 @@ packages <- c(
   "tidyverse", "kableExtra", "microbenchmark",
   "ggplot2", "plot.matrix", "rstan", "quanteda",
   "quanteda.textstats", "lexicon", "tidytext", "reshape2",
-  "rstan",'deSolve','stats',"MASS",'ModelMetrics',"reshape", #readRDS
+  "rstan",'deSolve','stats',"MASS",'ModelMetrics',"reshape",
+  'gganimate','ggimage','transformr','ggimage',
+  #readRDS
   
   #for shiny
     "gapminder", "ggforce", "gh", "globals", "openintro", "profvis", 
