@@ -10,10 +10,12 @@
 #packages
 source("Setup.R")
 install.packages('gganimate')
+install.packages('ggimage')
 library(gganimate)
 library(transformr)
 library(ggplot2)
 library(ggforce)
+library(ggimage)
 # definie terms
 N = 25 # number of bacteria
 Zeros = c() # bacterium starting points x0,y0
@@ -22,7 +24,7 @@ Zeros = c() # bacterium starting points x0,y0
 
 # generate 25 random initial points x0,y0
 
-for(i in 1:N){
+for(i in 1:25){
     #get the 1st value of punif(-8,8) and append it to Zeros
     x_0 = runif(1000,min =-8,max = 8)[1]
     y_0 = runif(1000,min =-8,max = 8)[1]
@@ -73,22 +75,27 @@ my_values = c()
 #f = k + S[t] *cos_sin[t,]
 
         
-        #parameters
-        a = 0
-        b = 2
-        S = runif(1000,min = a,max = b) # uniform distribution of bacteria
-        t = c(1:121) # iterations
-        gamma = runif(121,min = 0,max = 2*pi)
-        cos_sin = matrix(c(cos(gamma),sin(gamma)),nrow =121,ncol= 2)
+#parameters
+a = 0
+b = 2
+#S = runif(1000,min = a,max = b) # uniform distribution of bacteria
+t = c(1:121) # iterations
+#gamma = runif(121,min = 0,max = 2*pi)
+#cos_sin = matrix(c(cos(gamma),sin(gamma)),nrow =121,ncol= 2)
 
-# simulations
-for(i in 1:N){
-  k = zeros_pts[i,]
+# simulations # check it 
+for(i in 1:25){
+  k = zeros_pts[i,] # x0 y0 inital points a t = 0
+  S = runif(1000,min = a,max = b) # u
+  gamma = runif(121,min = 0,max = 2*pi)
+  cos_sin = matrix(c(cos(gamma),sin(gamma)),nrow =121,ncol= 2)
   for(t in 1:121){
     f = k + S[t] *cos_sin[t,]  # find a way to do the iteration with f t+1
     my_values <- append(my_values,f)
   }
 }
+        
+          
 #create a dateframe with the values of my_values, colnames = x,y
 
 df <-my_values %>% split(,f = c('x','y')) %>% data.frame()
@@ -145,9 +152,8 @@ X=df[2784:2904,]
 X[1,]<- c(zeros_pts[24,])
 Y=df[2905:3025,]
 Y[1,]<- c(zeros_pts[25,])
-df_1 <- cbind(A,B,C,D,E,F,G,H,I,G,K,L,M,N,O,P,Q,R,S,T,U,V,W,Y)
-sexo<-melt(df_1)
 
+# change colnames
 colnames(A)<-c('x1','y1')
 colnames(B)<-c('x2','y2')
 colnames(C)<-c('x3','y3')
@@ -157,7 +163,7 @@ colnames(F)<-c('x6','y6')
 colnames(G)<-c('x7','y7')
 colnames(H)<-c('x8','y8')
 colnames(I)<-c('x9','y9')
-colnames(J)<-c('x10','y10')
+colnames(df_11$x7.1)<-c('x10')
 colnames(K)<-c('x11','y11')
 colnames(L)<-c('x12','y12')
 colnames(M)<-c('x13','y13')
@@ -173,7 +179,9 @@ colnames(V)<-c('x22','y22')
 colnames(W)<-c('x23','y23')
 colnames(X)<-c('x24','y24')
 colnames(Y)<-c('x25','y25')
-        
+
+df_1 <- cbind(A,B,C,D,E,F,G,H,I,G,K,L,M,N,O,P,Q,R,S,T,U,V,W,Y)
+
       
 ## plots         
 
@@ -183,31 +191,56 @@ colnames(Y)<-c('x25','y25')
 staticplot<-ggplot() +
   geom_circle(aes(x0 = 0, y0 =0,r = 3), color = "orange", fill ='orange') +
   geom_text(aes(x=0,y=0,label = "SUGAR"),size = 15,color = 'white') +
-  geom_line(data = test_A,aes(x=x1,y=y1,group = 1),color =1)+
-  geom_line(data = test_B,aes(x=x2,y=y2,group=2),color =2)+
-  geom_line(data = C,aes(x=x3,y=y3))+
-  geom_line(data = E,aes(x=x5,y=y5),color =4)+
-  geom_line(data = D,aes(x=x4,y=y4),color =3)+
-  geom_line(data = F,aes(x=x6,y=y6),color =5)+
-  geom_line(data = G,aes(x=x7,y=y7),color =6)+
-  geom_line(data = H,aes(x=x8,y=y8),color =7)+
-  geom_line(data = I,aes(x=x9,y=y9),color =8)+
-  geom_line(data = J,aes(x=x10,y=y10),color =9)+
-  geom_line(data = K,aes(x=x11,y=y11),color =10)+
-  geom_line(data = L,aes(x=x12,y=y12),color =11)+
-  geom_line(data = M,aes(x=x13,y=y13),color =12)+
-  geom_line(data = N,aes(x=x14,y=y14),color =13)+
-  geom_line(data = O,aes(x=x15,y=y15),color =14)+
-  geom_line(data = P,aes(x=x16,y=y16),color =15)+
-  geom_line(data = Q,aes(x=x17,y=y17),color =16)+
-  geom_line(data = R,aes(x=x18,y=y18),color =17)+
-  geom_line(data = S,aes(x=x19,y=y19),color =18)+
-  geom_line(data = T,aes(x=x20,y=y20),color =19)+
-  geom_line(data = U,aes(x=x21,y=y21),color=20)+
-  geom_line(data = V,aes(x=x22,y=y22),color =21)+
-  geom_line(data = W,aes(x=x23,y=y23),color =22)+
-  geom_line(data = X,aes(x=x24,y=y24),color =23)+
-  geom_line(data = Y,aes(x=x25,y=y25),color =24)+
+  geom_line(data = df_11,aes(x=x1,y=y1,group = 1),color =1)+
+  geom_line(data = df_11,aes(x=x2,y=y2,group=2),color =2)+
+  geom_line(data = df_11,aes(x=x3,y=y3))+
+  geom_line(data = df_11,aes(x=x5,y=y5),color =4)+
+  geom_line(data = df_11,aes(x=x4,y=y4),color =3)+
+  geom_line(data = df_11,aes(x=x6,y=y6),color =5)+
+  geom_line(data = df_11,aes(x=x7,y=y7),color =6)+
+  geom_line(data = df_11,aes(x=x8,y=y8),color =7)+
+  geom_line(data = df_11,aes(x=x9,y=y9),color =8)+
+  geom_line(data = df_11,aes(x=x7.1,y=y7.1),color =9)+
+  geom_line(data = df_11,aes(x=x11,y=y11),color =10)+
+  geom_line(data = df_11,aes(x=x12,y=y12),color =11)+
+  geom_line(data = df_11,aes(x=x13,y=y13),color =12)+
+  geom_line(data = df_11,aes(x=x14,y=y14),color =13)+
+  geom_line(data = df_11,aes(x=x15,y=y15),color =14)+
+  geom_line(data = df_11,aes(x=x16,y=y16),color =15)+
+  geom_line(data = df_11,aes(x=x17,y=y17),color =16)+
+  geom_line(data = df_11,aes(x=x18,y=y18),color =17)+
+  geom_line(data = df_11,aes(x=x19,y=y19),color =18)+
+  geom_line(data = df_11,aes(x=x20,y=y20),color =19)+
+  geom_line(data = df_11,aes(x=x21,y=y21),color=20)+
+  geom_line(data = df_11,aes(x=x22,y=y22),color =21)+
+  geom_line(data = df_11,aes(x=x23,y=y23),color =22)+
+  #geom_line(data = df_11,aes(x=x24,y=y24),color =23)+
+  geom_line(data = df_11,aes(x=x25,y=y25),color =24)+
+  geom_image(data=df_11,aes(x=x1,y=y1,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x2,y=y2,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x3,y=y3,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x4,y=y4,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x5,y=y5,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x6,y=y6,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x7,y=y7,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x8,y=y8,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x9,y=y9,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x7.1,y=y7.1,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x11,y=y11,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x12,y=y12,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x13,y=y13,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x14,y=y14,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x15,y=y15,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x16,y=y16,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x17,y=y17,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x18,y=y18,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x19,y=y19,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x20,y=y20,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x21,y=y21,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x22,y=y22,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x23,y=y23,image = image),size =0.05)+
+  #geom_image(data=df_11,aes(x=x24,y=y24,image = image),size =0.05)+
+  geom_image(data=df_11,aes(x=x25,y=y25,image = image),size =0.05)+
   xlim(-10,10) +
   ylim(-10,10) +
   xlab("X Position") +
@@ -236,9 +269,7 @@ test_B <- B %>% group_by(2)%>% summarise (x2 = x2,
                                           y2 = y2) 
 
 
-
-
-#sexo10<-df_1 %>% melt()
+staticplot+ transition_reveal(time)
 
 
 
@@ -258,11 +289,18 @@ test_B <- B %>% group_by(2)%>% summarise (x2 = x2,
 #sexo2
 #group_by()
 
+colnames(df_1) <- make.unique(names(df_1))
 
+ovni = c('/Users/edwardtandia/Desktop/UNIL/PTSD/homework4-group_f/alien_image2.png')
+df_11<-df_1 %>% mutate(image = ovni)
 staticplot2<-ggplot() +
   geom_circle(aes(x0 = 0, y0 =0,r = 3), color = "orange", fill ='orange') +
   geom_text(aes(x=0,y=0,label = "SUGAR"),size = 15,color = 'white') +
-  geom_line(data = A_1,aes(x=x1,y=y1,group=2))+
+  #geom_segment(data = df_1,aes(x=x1,y=y1,xend =x1,yend=y1),color =1)+
+  #geom_line(data = melt(df_1),aes(x=value,y=value,group = variable),color =2)+
+  geom_path(data = df_11,aes(x=x3,y=y3,group = 1L),color =1)+
+  geom_image(data=df_11,aes(x=x3,y=y3,image = image),size =0.05)
+  #geom_line(data = A_1,aes(x=x1,y=y1,group=2))+
   #geom_line(data =B_1,aes(x=x2,y=y2),color =2)+
   #geom_line(data = A,aes(x=x1,y=y1))+
   #geom_line(data = sexo,aes(x=x,y=y,group=2),color =2)+
@@ -283,16 +321,19 @@ staticplot2<-ggplot() +
 #?apply
 
 #str(time)
-anim = staticplot+ transition_reveal(time)+
+anim = staticplot+ transition_reveal(simulations)+
   view_follow(fixed_x = TRUE)  +
   labs(title = 'Bacteria Motility')
 
 anim
 animate()
 
-staticplot2+transition_reveal(time)
+staticplot2+ transition_reveal(along= time,transition_length =3)+
+  transition_lenght = 3
 
+staticplot2+transition_components(time)
 
+index(df_1)
 
 #melt(df_1,split(x,y))
 anim2 = staticplot2 + 
